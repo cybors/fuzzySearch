@@ -1,0 +1,70 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>模糊检索</title>
+<style>
+    .autoSelectWrap {position: relative;display: inline-block;display: inline\9;zoom: 1;}
+    .autoSelectInput {height: 35px;padding-left: 10px;padding-right: 30px;outline: none;}
+    .autoSelect,
+    .autoSelect dt,
+    .autoSelect dd {margin: 0}
+    .autoSelect {position: absolute;left: 0;top: 40px;right: 0;
+        min-width: 100%;
+        max-height: 300px;
+        overflow-y: auto;
+        background-color: #fff;        
+        border: 1px solid #d2d2d2;
+        box-sizing: border-box;
+    }
+    .lautoSelect dt,
+    .autoSelect dd {
+        padding: 0 10px;
+        line-height: 36px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: pointer;
+    }
+    .autoSelect dd:hover {
+        background-color: #f2f2f2;
+    }
+    .autoSelect dd.active {background-color: orange;color: #fff}
+</style>
+</head>
+<body>
+    <div class="autoSelectWrap">
+        <input type="text" name="" data-role="autoSelectInput" oninput="fuzzySearch(event)" class="autoSelectInput" placeholder="请输入广东著名旅游城市">
+        <dl class="autoSelect" id="js_select_content">
+        </dl>
+    </div>
+
+<script>
+    var list = [
+       '广州','佛山','深圳','珠海','梅州','潮州','韶关','中山','湛江','阳江'
+    ]
+
+    function fuzzySearch(ev){
+        var keyWord = (ev.target.value).trim(),
+            el = document.querySelector('#js_select_content'),
+            l = '',
+            res;
+        if (keyWord == '') {
+            el.style.display = 'none';
+        }else {
+            el.style.display = '';
+        }
+        res = list.filter(function(curr,index,arr){
+            return curr.match(keyWord)
+        })
+
+        el.innerHTML = '';    
+        for (var i = 0; i < res.length; i++) {
+             l += '<dd>'+res[i]+'</dd>';
+        }
+        el.innerHTML = l
+    }
+</script>
+
+</body>
+</html>
