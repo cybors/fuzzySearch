@@ -120,7 +120,11 @@
       function blurSearchIpt(){
         setTimeout(() => {   
           console.log('label', label)
-          if(label.length > 0) {inputEl.value = label};
+          if(label.length > 0) {
+            inputEl.value = label
+          }else{
+            inputEl.value = ''
+          }         
           containerEl.style.display = 'none' 
         }, 100);
       }
