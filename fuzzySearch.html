@@ -35,12 +35,13 @@
 </head>
 <body>
     <div class="autoSelectWrap">
-        <input type="text" name="" data-role="autoSelectInput" oninput="fuzzySearch(event)" onblur="blurSearchIpt()" class="autoSelectInput" id="js_autoSelectInput" placeholder="请输入广东著名旅游城市">
-        <dl class="autoSelect" id="js_select_content">
+        <input type="text" name="" data-role="autoSelectInput"  class="autoSelectInput" id="js_autoSelectInput" placeholder="请输入广东著名旅游城市">
+        <dl class="autoSelect" data-role="autoSelectList">
         </dl>
     </div>
-
-<script>
+<script src="js/jAutoComplete.js"></script>
+<script>     
+    //模拟数据
     var list = [
       {
         label:'广州',
@@ -88,46 +89,14 @@
       }
     ]
 
-      var containerEl =  document.querySelector('#js_select_content');
-      var inputEl = document.querySelector('#js_autoSelectInput');
-      var label = '';
-        function fuzzySearch(ev){
-          var keyWord = (ev.target.value).trim(),
-              l = '',
-              res;
-          keyWord === '' ? containerEl.style.display = 'none' : containerEl.style.display = '';
-          res = list.filter(function(curr,index,arr){
-              return curr.label.match(keyWord)
-          })
-
-          containerEl.innerHTML = '';    
-          for (var i = 0; i < res.length; i++) {
-              l += '<dd onclick="setLabel('+res[i].value+')">'+res[i].label+'</dd>';
-          }
-          res.length ? containerEl.innerHTML = l : containerEl.innerHTML = '<dd>无匹配数据</dd>';
+    //调用
+    jAutoComplete('.autoSelectWrap',{
+      isShowData:true,
+      data: list,
+      clickItem:function(val){
+        console.log('点击的是：'+val)
       }
-
-      //获取value
-      function setLabel(val){
-        list.forEach((el, idx)=>{
-          if ((el.value).toString() === (val).toString()) {
-            label = el.label
-          }
-        })
-      }
-
-      //失去焦点收起
-      function blurSearchIpt(){
-        setTimeout(() => {   
-          console.log('label', label)
-          if(label.length > 0) {
-            inputEl.value = label
-          }else{
-            inputEl.value = ''
-          }         
-          containerEl.style.display = 'none' 
-        }, 100);
-      }
+    })
 </script>
 
 </body>
